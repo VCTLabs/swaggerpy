@@ -2,6 +2,9 @@
 # Copyright (c) 2013, Digium, Inc.
 #
 
+from .swagger_model import load_file, load_json, load_url, Loader
+from .processors import SwaggerProcessor, SwaggerError
+
 """Swagger processing libraries.
 
 More information on Swagger can be found `on the Swagger website
@@ -9,6 +12,3 @@ More information on Swagger can be found `on the Swagger website
 """
 
 __all__ = ["client", "codegen", "processors", "swagger_model"]
-
-from .swagger_model import load_file, load_json, load_url, Loader
-from .processors import SwaggerProcessor, SwaggerError
