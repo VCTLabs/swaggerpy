@@ -34,7 +34,7 @@ __version__ = pkg_resources.get_distribution('swaggerpy').version
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.intersphinx', 'sphinx.ext.todo']
 extensions = [
     'sphinx_git',
-    'sphinxcontrib.apidoc',
+#    'sphinxcontrib.apidoc',
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',

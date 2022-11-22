@@ -33,9 +33,11 @@ source = ["swaggerpy"]
 fail_under = 70
 show_missing = true
 exclude_lines = [
+    "def __repr__",
     "pragma: no cover",
     "raise NotImplementedError",
     "raise AssertionError",
+    "if __name__ == .__main__.:",
     "if typing.TYPE_CHECKING:",
     "if TYPE_CHECKING:",
 ]
@@ -80,7 +82,7 @@ dirty = "{version}+d{build_date:%Y%m%d}"
 distance-dirty = "{next_version}.dev{distance}"
 
 [tool.versioningit.write]
-file = "pyami_asterisk/_version.py"
+file = "swaggerpy/_version.py"
 
 [tool.bandit]
 exclude_dirs = ["docs", "swaggerpy_test"]

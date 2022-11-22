@@ -1,19 +1,10 @@
-client Package
-==============
+client module
+=============
 
-:mod:`client` Package
+:mod:`client` Module
 ---------------------
 
 .. automodule:: swaggerpy.client
     :members:
     :undoc-members:
     :show-inheritance:
-
-:mod:`client` Module
---------------------
-
-.. automodule:: swaggerpy.client.client
-    :members:
-    :undoc-members:
-    :show-inheritance:
-

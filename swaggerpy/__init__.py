@@ -2,8 +2,10 @@
 # Copyright (c) 2013, Digium, Inc.
 #
 
-from .swagger_model import load_file, load_json, load_url, Loader
-from .processors import SwaggerProcessor, SwaggerError
+from ._version import __version__
+from .client import SwaggerClient
+from .processors import SwaggerError, SwaggerProcessor
+from .swagger_model import Loader, load_file, load_json, load_url
 
 """Swagger processing libraries.
 
@@ -11,4 +13,13 @@ More information on Swagger can be found `on the Swagger website
 <https://developers.helloreverb.com/swagger/>`
 """
 
-__all__ = ["client", "codegen", "processors", "swagger_model"]
+__all__ = [
+    "__version__",
+    "Loader",
+    "SwaggerClient",
+    "SwaggerProcessor",
+    "SwaggerError",
+    "load_file",
+    "load_json",
+    "load_url",
+]
