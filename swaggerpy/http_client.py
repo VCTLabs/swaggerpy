@@ -10,7 +10,7 @@
 import logging
 import requests
 import requests.auth
-import urlparse
+import six.moves.urllib as urllib
 import websocket
 
 log = logging.getLogger(__name__)
@@ -95,7 +95,7 @@ class Authenticator(object):
         :param url: URL to check.
         :return: True if matches host, port and scheme, False otherwise.
         """
-        split = urlparse.urlsplit(url)
+        split = urllib.parse.urlsplit(url)
         return self.host == split.hostname
 
     def apply(self, request):
@@ -166,14 +166,14 @@ class SynchronousHttpClient(HttpClient):
         self.authenticator = ApiKeyAuthenticator(
             host=host, api_key=api_key, param_name=param_name)
 
-    def request(self, method, url, params=None, data=None):
+    def request(self, method, url, params=None, data=None, headers=None):
         """Requests based implementation.
 
         :return: Requests response
         :rtype:  requests.Response
         """
         req = requests.Request(
-            method=method, url=url, params=params, data=data)
+            method=method, url=url, params=params, data=data, headers=headers)
         self.apply_authentication(req)
         return self.session.send(self.session.prepare_request(req))
 
