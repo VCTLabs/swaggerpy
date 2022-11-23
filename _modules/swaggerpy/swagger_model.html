@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>swaggerpy.swagger_model &mdash; swagger-py 0.2.2.dev8 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> swagger-py
+          </a>
+              <div class="version">
+                0.2.2.dev8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#usage">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#development">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">swaggerpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">0.2.0 (2013-10-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html#id2">0.1.0 (2013-10-24)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">swagger-py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">swaggerpy.swagger_model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for swaggerpy.swagger_model</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright (c) 2013, Digium, Inc.</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;Code for handling the base Swagger API model.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="n">urllib</span>
+
+<span class="kn">from</span> <span class="nn">.http_client</span> <span class="kn">import</span> <span class="n">SynchronousHttpClient</span>
+<span class="kn">from</span> <span class="nn">.processors</span> <span class="kn">import</span> <span class="n">SwaggerError</span><span class="p">,</span> <span class="n">SwaggerProcessor</span>
+
+<span class="n">SWAGGER_VERSIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;1.1&quot;</span><span class="p">,</span> <span class="s2">&quot;1.2&quot;</span><span class="p">]</span>
+
+<span class="n">SWAGGER_PRIMITIVES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;void&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;number&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;int&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;long&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;double&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;float&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Date&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="c1"># noinspection PyDocstring</span>
+<div class="viewcode-block" id="ValidationProcessor"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor">[docs]</a><span class="k">class</span> <span class="nc">ValidationProcessor</span><span class="p">(</span><span class="n">SwaggerProcessor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A processor that validates the Swagger model.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ValidationProcessor.process_resource_listing"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_resource_listing">[docs]</a>    <span class="k">def</span> <span class="nf">process_resource_listing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;basePath&#39;</span><span class="p">,</span> <span class="s1">&#39;apis&#39;</span><span class="p">,</span> <span class="s1">&#39;swaggerVersion&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">resources</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resources</span><span class="p">[</span><span class="s1">&#39;swaggerVersion&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">SWAGGER_VERSIONS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SwaggerError</span><span class="p">(</span>
+                <span class="s2">&quot;Unsupported Swagger version </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">resources</span><span class="o">.</span><span class="n">swaggerVersion</span><span class="p">,</span> <span class="n">context</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_resource_listing_api"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_resource_listing_api">[docs]</a>    <span class="k">def</span> <span class="nf">process_resource_listing_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">listing_api</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">listing_api</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">],</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">listing_api</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">SwaggerError</span><span class="p">(</span><span class="s2">&quot;Path must start with /&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_api_declaration"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_api_declaration">[docs]</a>    <span class="k">def</span> <span class="nf">process_api_declaration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;swaggerVersion&#39;</span><span class="p">,</span> <span class="s1">&#39;basePath&#39;</span><span class="p">,</span> <span class="s1">&#39;resourcePath&#39;</span><span class="p">,</span> <span class="s1">&#39;apis&#39;</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="c1"># Check model name and id consistency</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span> <span class="ow">in</span> <span class="n">resource</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">model_name</span> <span class="o">!=</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="n">SwaggerError</span><span class="p">(</span><span class="s2">&quot;Model id doesn&#39;t match name&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+                <span class="c1"># Convert models dict to list</span>
+
+<div class="viewcode-block" id="ValidationProcessor.process_resource_api"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_resource_api">[docs]</a>    <span class="k">def</span> <span class="nf">process_resource_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;operations&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_operation"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_operation">[docs]</a>    <span class="k">def</span> <span class="nf">process_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;httpMethod&#39;</span><span class="p">,</span> <span class="s1">&#39;nickname&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_parameter"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">process_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;paramType&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;paramType&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;path&#39;</span><span class="p">:</span>
+            <span class="c1"># special handling for path parameters</span>
+            <span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;required&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;dataType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;string&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># dataType is required for non-path parameters</span>
+            <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;dataType&#39;</span><span class="p">],</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;allowedValues&#39;</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SwaggerError</span><span class="p">(</span>
+                <span class="s2">&quot;Field &#39;allowedValues&#39; invalid; use &#39;allowableValues&#39;&quot;</span><span class="p">,</span> <span class="n">context</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_error_response"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_error_response">[docs]</a>    <span class="k">def</span> <span class="nf">process_error_response</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">error_response</span><span class="p">,</span> <span class="n">context</span>
+    <span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;reason&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">error_response</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_model"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_model">[docs]</a>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;properties&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="c1"># Move property field name into the object</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">prop</span><span class="p">)</span> <span class="ow">in</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">prop</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_name</span></div>
+
+<div class="viewcode-block" id="ValidationProcessor.process_property"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.ValidationProcessor.process_property">[docs]</a>    <span class="k">def</span> <span class="nf">process_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="n">required_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="n">validate_required_fields</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="json_load_url"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.json_load_url">[docs]</a><span class="k">def</span> <span class="nf">json_load_url</span><span class="p">(</span><span class="n">http_client</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Download and parse JSON from a URL.</span>
+
+<span class="sd">    :param http_client: HTTP client interface.</span>
+<span class="sd">    :type  http_client: http_client.HttpClient</span>
+<span class="sd">    :param url: URL for JSON to parse</span>
+<span class="sd">    :return: Parsed JSON dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scheme</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">scheme</span>
+    <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;file&#39;</span><span class="p">:</span>
+        <span class="c1"># requests can&#39;t handle file: URLs so the following is required</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c1"># nosec</span>
+        <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY3</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">codecs</span>
+
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">getreader</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">info</span><span class="p">()</span><span class="o">.</span><span class="n">get_content_charset</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">http_client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Loader"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.Loader">[docs]</a><span class="k">class</span> <span class="nc">Loader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstraction for loading Swagger API&#39;s.</span>
+
+<span class="sd">    :param http_client: HTTP client interface.</span>
+<span class="sd">    :type  http_client: swaggerpy.http_client.HttpClient</span>
+<span class="sd">    :param processors: List of processors to apply to the API.</span>
+<span class="sd">    :type  processors: list of swaggerpy.processors.SwaggerProcessor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_client</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_client</span> <span class="o">=</span> <span class="n">http_client</span>
+        <span class="k">if</span> <span class="n">processors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">processors</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># always go through the validation processor first</span>
+        <span class="c1"># noinspection PyTypeChecker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processors</span> <span class="o">=</span> <span class="p">[</span><span class="n">ValidationProcessor</span><span class="p">()]</span> <span class="o">+</span> <span class="n">processors</span>
+
+<div class="viewcode-block" id="Loader.load_resource_listing"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.Loader.load_resource_listing">[docs]</a>    <span class="k">def</span> <span class="nf">load_resource_listing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources_url</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a resource listing, loading referenced API declarations.</span>
+
+<span class="sd">        The following fields are added to the resource listing object model.</span>
+<span class="sd">         * [&#39;url&#39;] = URL resource listing was loaded from</span>
+<span class="sd">         * The [&#39;apis&#39;] array is modified according to load_api_declaration()</span>
+
+<span class="sd">        The Loader&#39;s processors are applied to the fully loaded resource</span>
+<span class="sd">        listing.</span>
+
+<span class="sd">        :param resources_url:   File name for resources.json</span>
+<span class="sd">        :param base_url:    Optional URL to be the base URL for finding API</span>
+<span class="sd">                            declarations. If not specified, &#39;basePath&#39; from the</span>
+<span class="sd">                            resource listing is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Load the resource listing</span>
+        <span class="n">resource_listing</span> <span class="o">=</span> <span class="n">json_load_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">http_client</span><span class="p">,</span> <span class="n">resources_url</span><span class="p">)</span>
+
+        <span class="c1"># Some extra data only known about at load time</span>
+        <span class="n">resource_listing</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resources_url</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_url</span><span class="p">:</span>
+            <span class="n">base_url</span> <span class="o">=</span> <span class="n">resource_listing</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;basePath&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Load the API declarations</span>
+        <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">resource_listing</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;apis&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_api_declaration</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span>
+
+        <span class="c1"># Now that the raw object model has been loaded, apply the processors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process_resource_listing</span><span class="p">(</span><span class="n">resource_listing</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resource_listing</span></div>
+
+<div class="viewcode-block" id="Loader.load_api_declaration"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.Loader.load_api_declaration">[docs]</a>    <span class="k">def</span> <span class="nf">load_api_declaration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">api_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load an API declaration file.</span>
+
+<span class="sd">        api_dict is modified with the results of the load:</span>
+<span class="sd">         * [&#39;url&#39;] = URL api declaration was loaded from</span>
+<span class="sd">         * [&#39;api_declaration&#39;] = Parsed results of the load</span>
+
+<span class="sd">        :param base_url: Base URL to load from</span>
+<span class="sd">        :param api_dict: api object from resource listing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">api_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{format}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">)</span>
+        <span class="n">api_dict</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">))</span>
+        <span class="n">api_dict</span><span class="p">[</span><span class="s1">&#39;api_declaration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_load_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">http_client</span><span class="p">,</span> <span class="n">api_dict</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="Loader.process_resource_listing"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.Loader.process_resource_listing">[docs]</a>    <span class="k">def</span> <span class="nf">process_resource_listing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resources</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Apply processors to a resource listing.</span>
+
+<span class="sd">        :param resources: Resource listing to process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">processor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">:</span>
+            <span class="n">processor</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="validate_required_fields"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.validate_required_fields">[docs]</a><span class="k">def</span> <span class="nf">validate_required_fields</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">required_fields</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks a JSON object for a set of required fields.</span>
+
+<span class="sd">    If any required field is missing, a SwaggerError is raised.</span>
+
+<span class="sd">    :param json: JSON object to check.</span>
+<span class="sd">    :param required_fields: List of required fields.</span>
+<span class="sd">    :param context: Current context in the API.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">missing_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">required_fields</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">json</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">missing_fields</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SwaggerError</span><span class="p">(</span><span class="s2">&quot;Missing fields: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_fields</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.load_file">[docs]</a><span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">resource_listing_file</span><span class="p">,</span> <span class="n">http_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Loads a resource listing file, applying the given processors.</span>
+
+<span class="sd">    :param http_client: HTTP client interface.</span>
+<span class="sd">    :param resource_listing_file: File name for a resource listing.</span>
+<span class="sd">    :param processors:  List of SwaggerProcessors to apply to the resulting</span>
+<span class="sd">                        resource.</span>
+<span class="sd">    :return: Processed object model from</span>
+<span class="sd">    :raise: IOError: On error reading api-docs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">resource_listing_file</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="s1">&#39;file:&#39;</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">pathname2url</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+    <span class="c1"># When loading from files, everything is relative to the resource listing</span>
+    <span class="n">dir_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urljoin</span><span class="p">(</span><span class="s1">&#39;file:&#39;</span><span class="p">,</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">pathname2url</span><span class="p">(</span><span class="n">dir_path</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">load_url</span><span class="p">(</span>
+        <span class="n">url</span><span class="p">,</span> <span class="n">http_client</span><span class="o">=</span><span class="n">http_client</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="n">processors</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_url"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.load_url">[docs]</a><span class="k">def</span> <span class="nf">load_url</span><span class="p">(</span><span class="n">resource_listing_url</span><span class="p">,</span> <span class="n">http_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Loads a resource listing, applying the given processors.</span>
+
+<span class="sd">    :param resource_listing_url: URL for a resource listing.</span>
+<span class="sd">    :param http_client: HTTP client interface.</span>
+<span class="sd">    :param processors:  List of SwaggerProcessors to apply to the resulting</span>
+<span class="sd">                        resource.</span>
+<span class="sd">    :param base_url:    Optional URL to be the base URL for finding API</span>
+<span class="sd">                        declarations. If not specified, &#39;basePath&#39; from the</span>
+<span class="sd">                        resource listing is used.</span>
+<span class="sd">    :return: Processed object model from</span>
+<span class="sd">    :raise: IOError, URLError: On error reading api-docs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">http_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">http_client</span> <span class="o">=</span> <span class="n">SynchronousHttpClient</span><span class="p">()</span>
+
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">(</span><span class="n">http_client</span><span class="o">=</span><span class="n">http_client</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="n">processors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loader</span><span class="o">.</span><span class="n">load_resource_listing</span><span class="p">(</span><span class="n">resource_listing_url</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_json"><a class="viewcode-back" href="../../api/swaggerpy.swagger_model.html#swaggerpy.load_json">[docs]</a><span class="k">def</span> <span class="nf">load_json</span><span class="p">(</span><span class="n">resource_listing</span><span class="p">,</span> <span class="n">http_client</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Process a resource listing that has already been parsed.</span>
+
+<span class="sd">    :param resource_listing: Parsed resource listing.</span>
+<span class="sd">    :type  resource_listing: dict</span>
+<span class="sd">    :param http_client:</span>
+<span class="sd">    :param processors:</span>
+<span class="sd">    :return: Processed resource listing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">http_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">http_client</span> <span class="o">=</span> <span class="n">SynchronousHttpClient</span><span class="p">()</span>
+
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">Loader</span><span class="p">(</span><span class="n">http_client</span><span class="o">=</span><span class="n">http_client</span><span class="p">,</span> <span class="n">processors</span><span class="o">=</span><span class="n">processors</span><span class="p">)</span>
+    <span class="n">loader</span><span class="o">.</span><span class="n">process_resource_listing</span><span class="p">(</span><span class="n">resource_listing</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">resource_listing</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

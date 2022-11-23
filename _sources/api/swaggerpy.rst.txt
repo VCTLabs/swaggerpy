@@ -1,0 +1,22 @@
+swaggerpy package
+=================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   swaggerpy.client
+   swaggerpy.codegen
+   swaggerpy.http_client
+   swaggerpy.processors
+   swaggerpy.swagger_model
+
+Module contents
+---------------
+
+.. automodule:: swaggerpy
+   :members:
+   :undoc-members:
+   :show-inheritance:

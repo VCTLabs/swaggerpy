@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>swaggerpy.http_client module &mdash; swagger-py 0.2.2.dev8 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="swaggerpy.processors module" href="swaggerpy.processors.html" />
+    <link rel="prev" title="swaggerpy.codegen module" href="swaggerpy.codegen.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> swagger-py
+          </a>
+              <div class="version">
+                0.2.2.dev8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#usage">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#development">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#license">License</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">swaggerpy</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="swaggerpy.html">swaggerpy package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="swaggerpy.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.client.html">swaggerpy.client module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.codegen.html">swaggerpy.codegen module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">swaggerpy.http_client module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.processors.html">swaggerpy.processors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.swagger_model.html">swaggerpy.swagger_model module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="swaggerpy.html#module-swaggerpy">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">0.2.0 (2013-10-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html#id2">0.1.0 (2013-10-24)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">swagger-py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">swaggerpy</a></li>
+          <li class="breadcrumb-item"><a href="swaggerpy.html">swaggerpy package</a></li>
+      <li class="breadcrumb-item active">swaggerpy.http_client module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/swaggerpy.http_client.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-swaggerpy.http_client">
+<span id="swaggerpy-http-client-module"></span><h1>swaggerpy.http_client module<a class="headerlink" href="#module-swaggerpy.http_client" title="Permalink to this heading"></a></h1>
+<p>HTTP client abstractions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.http_client.ApiKeyAuthenticator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.http_client.</span></span><span class="sig-name descname"><span class="pre">ApiKeyAuthenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api_key'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#ApiKeyAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.ApiKeyAuthenticator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#swaggerpy.http_client.Authenticator" title="swaggerpy.http_client.Authenticator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Authenticator</span></code></a></p>
+<p>?api_key authenticator.</p>
+<p>This authenticator adds a query parameter to specify an API key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host to authenticate for.</p></li>
+<li><p><strong>api_key</strong> – API key.</p></li>
+<li><p><strong>param_name</strong> – Query parameter specifying the API key.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.ApiKeyAuthenticator.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#ApiKeyAuthenticator.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.ApiKeyAuthenticator.apply" title="Permalink to this definition"></a></dt>
+<dd><p>Apply authentication to a request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – Request to add authentication information to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.http_client.Authenticator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.http_client.</span></span><span class="sig-name descname"><span class="pre">Authenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#Authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.Authenticator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Authenticates requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>host</strong> – Host to authenticate for.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.Authenticator.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#Authenticator.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.Authenticator.apply" title="Permalink to this definition"></a></dt>
+<dd><p>Apply authentication to a request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – Request to add authentication information to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.Authenticator.matches">
+<span class="sig-name descname"><span class="pre">matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#Authenticator.matches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.Authenticator.matches" title="Permalink to this definition"></a></dt>
+<dd><p>Returns true if this authenticator applies to the given url.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> – URL to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if matches host, port and scheme, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.http_client.BasicAuthenticator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.http_client.</span></span><span class="sig-name descname"><span class="pre">BasicAuthenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#BasicAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.BasicAuthenticator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#swaggerpy.http_client.Authenticator" title="swaggerpy.http_client.Authenticator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Authenticator</span></code></a></p>
+<p>HTTP Basic authenticator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host to authenticate for.</p></li>
+<li><p><strong>username</strong> – Username.</p></li>
+<li><p><strong>password</strong> – Password</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.BasicAuthenticator.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#BasicAuthenticator.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.BasicAuthenticator.apply" title="Permalink to this definition"></a></dt>
+<dd><p>Apply authentication to a request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> – Request to add authentication information to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.http_client.HttpClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.http_client.</span></span><span class="sig-name descname"><span class="pre">HttpClient</span></span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#HttpClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.HttpClient" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Interface for a minimal HTTP client.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.HttpClient.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#HttpClient.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.HttpClient.close" title="Permalink to this definition"></a></dt>
+<dd><p>Close this client resource.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.HttpClient.request">
+<span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#HttpClient.request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.HttpClient.request" title="Permalink to this definition"></a></dt>
+<dd><p>Issue an HTTP request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – HTTP method (GET, POST, DELETE, etc.)</p></li>
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – URL to request</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Query parameters (?key=value)</p></li>
+<li><p><strong>data</strong> (<em>Dictionary</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.11)"><em>bytes</em></a><em>, or </em><em>file-like object</em>) – Request body</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Implementation specific response object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.HttpClient.set_api_key">
+<span class="sig-name descname"><span class="pre">set_api_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api_key'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#HttpClient.set_api_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.HttpClient.set_api_key" title="Permalink to this definition"></a></dt>
+<dd><p>Configures client to use api_key authentication.</p>
+<p>The api_key is added to every query parameter sent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Hostname to limit authentication to.</p></li>
+<li><p><strong>api_key</strong> – Value for api_key.</p></li>
+<li><p><strong>param_name</strong> – Parameter name to use in query string.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.HttpClient.set_basic_auth">
+<span class="sig-name descname"><span class="pre">set_basic_auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#HttpClient.set_basic_auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.HttpClient.set_basic_auth" title="Permalink to this definition"></a></dt>
+<dd><p>Configures client to use HTTP Basic authentication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Hostname to limit authentication to.</p></li>
+<li><p><strong>username</strong> – Username</p></li>
+<li><p><strong>password</strong> – Password</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.HttpClient.ws_connect">
+<span class="sig-name descname"><span class="pre">ws_connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#HttpClient.ws_connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.HttpClient.ws_connect" title="Permalink to this definition"></a></dt>
+<dd><p>Create a WebSocket connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – WebSocket URL.</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Query parameters (?key=value)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Implmentation specific WebSocket connection object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.http_client.</span></span><span class="sig-name descname"><span class="pre">SynchronousHttpClient</span></span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#swaggerpy.http_client.HttpClient" title="swaggerpy.http_client.HttpClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">HttpClient</span></code></a></p>
+<p>Synchronous HTTP client implementation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient.apply_authentication">
+<span class="sig-name descname"><span class="pre">apply_authentication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient.apply_authentication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient.apply_authentication" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient.close" title="Permalink to this definition"></a></dt>
+<dd><p>Close this client resource.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient.request">
+<span class="sig-name descname"><span class="pre">request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient.request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient.request" title="Permalink to this definition"></a></dt>
+<dd><p>Requests based implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Requests response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>requests.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient.set_api_key">
+<span class="sig-name descname"><span class="pre">set_api_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'api_key'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient.set_api_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient.set_api_key" title="Permalink to this definition"></a></dt>
+<dd><p>Configures client to use api_key authentication.</p>
+<p>The api_key is added to every query parameter sent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Hostname to limit authentication to.</p></li>
+<li><p><strong>api_key</strong> – Value for api_key.</p></li>
+<li><p><strong>param_name</strong> – Parameter name to use in query string.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient.set_basic_auth">
+<span class="sig-name descname"><span class="pre">set_basic_auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient.set_basic_auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient.set_basic_auth" title="Permalink to this definition"></a></dt>
+<dd><p>Configures client to use HTTP Basic authentication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Hostname to limit authentication to.</p></li>
+<li><p><strong>username</strong> – Username</p></li>
+<li><p><strong>password</strong> – Password</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.http_client.SynchronousHttpClient.ws_connect">
+<span class="sig-name descname"><span class="pre">ws_connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/http_client.html#SynchronousHttpClient.ws_connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.http_client.SynchronousHttpClient.ws_connect" title="Permalink to this definition"></a></dt>
+<dd><p>Websocket-client based implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>WebSocket connection</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>websocket.WebSocket</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="swaggerpy.codegen.html" class="btn btn-neutral float-left" title="swaggerpy.codegen module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="swaggerpy.processors.html" class="btn btn-neutral float-right" title="swaggerpy.processors module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+swaggerpy.swagger\_model module
+===============================
+
+.. automodule:: swaggerpy.swagger_model
+   :members:
+   :undoc-members:
+   :show-inheritance:

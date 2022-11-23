@@ -1,0 +1,7 @@
+swaggerpy.codegen module
+========================
+
+.. automodule:: swaggerpy.codegen
+   :members:
+   :undoc-members:
+   :show-inheritance:

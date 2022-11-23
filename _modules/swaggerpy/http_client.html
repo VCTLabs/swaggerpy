@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>swaggerpy.http_client &mdash; swagger-py 0.2.2.dev8 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> swagger-py
+          </a>
+              <div class="version">
+                0.2.2.dev8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#usage">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#development">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">swaggerpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">0.2.0 (2013-10-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html#id2">0.1.0 (2013-10-24)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">swagger-py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">swaggerpy.http_client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for swaggerpy.http_client</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright (c) 2013, Digium, Inc.</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;HTTP client abstractions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">websocket</span>
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="n">urllib</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HttpClient"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.HttpClient">[docs]</a><span class="k">class</span> <span class="nc">HttpClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Interface for a minimal HTTP client.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HttpClient.close"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.HttpClient.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Close this client resource.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Method not implemented&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HttpClient.request"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.HttpClient.request">[docs]</a>    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Issue an HTTP request.</span>
+
+<span class="sd">        :param method: HTTP method (GET, POST, DELETE, etc.)</span>
+<span class="sd">        :type  method: str</span>
+<span class="sd">        :param url: URL to request</span>
+<span class="sd">        :type  url: str</span>
+<span class="sd">        :param params: Query parameters (?key=value)</span>
+<span class="sd">        :type  params: dict</span>
+<span class="sd">        :param data: Request body</span>
+<span class="sd">        :type  data: Dictionary, bytes, or file-like object</span>
+<span class="sd">        :return: Implementation specific response object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Method not implemented&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HttpClient.ws_connect"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.HttpClient.ws_connect">[docs]</a>    <span class="k">def</span> <span class="nf">ws_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a WebSocket connection.</span>
+
+<span class="sd">        :param url: WebSocket URL.</span>
+<span class="sd">        :type  url: str</span>
+<span class="sd">        :param params: Query parameters (?key=value)</span>
+<span class="sd">        :type  params: dict</span>
+<span class="sd">        :return: Implmentation specific WebSocket connection object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Method not implemented&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HttpClient.set_basic_auth"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.HttpClient.set_basic_auth">[docs]</a>    <span class="k">def</span> <span class="nf">set_basic_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Configures client to use HTTP Basic authentication.</span>
+
+<span class="sd">        :param host: Hostname to limit authentication to.</span>
+<span class="sd">        :param username: Username</span>
+<span class="sd">        :param password: Password</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Method not implemented&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HttpClient.set_api_key"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.HttpClient.set_api_key">[docs]</a>    <span class="k">def</span> <span class="nf">set_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">param_name</span><span class="o">=</span><span class="s1">&#39;api_key&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Configures client to use api_key authentication.</span>
+
+<span class="sd">        The api_key is added to every query parameter sent.</span>
+
+<span class="sd">        :param host: Hostname to limit authentication to.</span>
+<span class="sd">        :param api_key: Value for api_key.</span>
+<span class="sd">        :param param_name: Parameter name to use in query string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Method not implemented&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.Authenticator">[docs]</a><span class="k">class</span> <span class="nc">Authenticator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Authenticates requests.</span>
+
+<span class="sd">    :param host: Host to authenticate for.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Authenticator.matches"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.Authenticator.matches">[docs]</a>    <span class="k">def</span> <span class="nf">matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns true if this authenticator applies to the given url.</span>
+
+<span class="sd">        :param url: URL to check.</span>
+<span class="sd">        :return: True if matches host, port and scheme, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlsplit</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">==</span> <span class="n">split</span><span class="o">.</span><span class="n">hostname</span></div>
+
+<div class="viewcode-block" id="Authenticator.apply"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.Authenticator.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Apply authentication to a request.</span>
+
+<span class="sd">        :param request: Request to add authentication information to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Method not implemented&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># noinspection PyDocstring</span>
+<div class="viewcode-block" id="BasicAuthenticator"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.BasicAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">BasicAuthenticator</span><span class="p">(</span><span class="n">Authenticator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;HTTP Basic authenticator.</span>
+
+<span class="sd">    :param host: Host to authenticate for.</span>
+<span class="sd">    :param username: Username.</span>
+<span class="sd">    :param password: Password</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BasicAuthenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BasicAuthenticator.apply"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.BasicAuthenticator.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth</span></div></div>
+
+
+<span class="c1"># noinspection PyDocstring</span>
+<div class="viewcode-block" id="ApiKeyAuthenticator"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.ApiKeyAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">ApiKeyAuthenticator</span><span class="p">(</span><span class="n">Authenticator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;?api_key authenticator.</span>
+
+<span class="sd">    This authenticator adds a query parameter to specify an API key.</span>
+
+<span class="sd">    :param host: Host to authenticate for.</span>
+<span class="sd">    :param api_key: API key.</span>
+<span class="sd">    :param param_name: Query parameter specifying the API key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">param_name</span><span class="o">=</span><span class="s1">&#39;api_key&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ApiKeyAuthenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_name</span> <span class="o">=</span> <span class="n">param_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+
+<div class="viewcode-block" id="ApiKeyAuthenticator.apply"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.ApiKeyAuthenticator.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">param_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span></div></div>
+
+
+<span class="c1"># noinspection PyDocstring</span>
+<div class="viewcode-block" id="SynchronousHttpClient"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient">[docs]</a><span class="k">class</span> <span class="nc">SynchronousHttpClient</span><span class="p">(</span><span class="n">HttpClient</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Synchronous HTTP client implementation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">websockets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SynchronousHttpClient.close"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+        <span class="c1"># There&#39;s no WebSocket factory to close; close connections individually</span>
+
+<div class="viewcode-block" id="SynchronousHttpClient.set_basic_auth"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient.set_basic_auth">[docs]</a>    <span class="k">def</span> <span class="nf">set_basic_auth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">BasicAuthenticator</span><span class="p">(</span>
+            <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SynchronousHttpClient.set_api_key"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient.set_api_key">[docs]</a>    <span class="k">def</span> <span class="nf">set_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">param_name</span><span class="o">=</span><span class="s1">&#39;api_key&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">ApiKeyAuthenticator</span><span class="p">(</span>
+            <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">param_name</span><span class="o">=</span><span class="n">param_name</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SynchronousHttpClient.request"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient.request">[docs]</a>    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Requests based implementation.</span>
+
+<span class="sd">        :return: Requests response</span>
+<span class="sd">        :rtype:  requests.Response</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_authentication</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span><span class="n">req</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="SynchronousHttpClient.ws_connect"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient.ws_connect">[docs]</a>    <span class="k">def</span> <span class="nf">ws_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Websocket-client based implementation.</span>
+
+<span class="sd">        :return: WebSocket connection</span>
+<span class="sd">        :rtype:  websocket.WebSocket</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Build a prototype request and apply authentication to it</span>
+        <span class="n">proto_req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_authentication</span><span class="p">(</span><span class="n">proto_req</span><span class="p">)</span>
+        <span class="c1"># Prepare the request, so params will be put on the url,</span>
+        <span class="c1"># and authenticators can manipulate headers</span>
+        <span class="n">preped_req</span> <span class="o">=</span> <span class="n">proto_req</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+        <span class="c1"># Pull the Authorization header, if needed</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">preped_req</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;Authorization&#39;</span>
+        <span class="p">]</span>
+        <span class="c1"># Pull the URL, which includes query params</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">preped_req</span><span class="o">.</span><span class="n">url</span>
+        <span class="c1"># Requests version 2.0.0 (at least) will no longer form a URL for us</span>
+        <span class="c1"># for ws scheme types, so we do it manually</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">joined_params</span> <span class="o">=</span> <span class="s2">&quot;&amp;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="s2">&quot;?</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">joined_params</span>
+        <span class="k">return</span> <span class="n">websocket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SynchronousHttpClient.apply_authentication"><a class="viewcode-back" href="../../api/swaggerpy.http_client.html#swaggerpy.http_client.SynchronousHttpClient.apply_authentication">[docs]</a>    <span class="k">def</span> <span class="nf">apply_authentication</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">url</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">req</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>swaggerpy.processors module &mdash; swagger-py 0.2.2.dev8 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="swaggerpy.swagger_model module" href="swaggerpy.swagger_model.html" />
+    <link rel="prev" title="swaggerpy.http_client module" href="swaggerpy.http_client.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> swagger-py
+          </a>
+              <div class="version">
+                0.2.2.dev8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#usage">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#development">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../README.html#license">License</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">swaggerpy</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="swaggerpy.html">swaggerpy package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="swaggerpy.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.client.html">swaggerpy.client module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.codegen.html">swaggerpy.codegen module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.http_client.html">swaggerpy.http_client module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">swaggerpy.processors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="swaggerpy.swagger_model.html">swaggerpy.swagger_model module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="swaggerpy.html#module-swaggerpy">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">0.2.0 (2013-10-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html#id2">0.1.0 (2013-10-24)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">swagger-py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">swaggerpy</a></li>
+          <li class="breadcrumb-item"><a href="swaggerpy.html">swaggerpy package</a></li>
+      <li class="breadcrumb-item active">swaggerpy.processors module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/swaggerpy.processors.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-swaggerpy.processors">
+<span id="swaggerpy-processors-module"></span><h1>swaggerpy.processors module<a class="headerlink" href="#module-swaggerpy.processors" title="Permalink to this heading"></a></h1>
+<p>Swagger processors enrich and validate the Swagger data model.</p>
+<p>This can be to make templating easier, or ensure values required for a
+particular use case (such as ensuring that description and summary fields
+exist)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.processors.FlatenningProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.processors.</span></span><span class="sig-name descname"><span class="pre">FlatenningProcessor</span></span><a class="reference internal" href="../_modules/swaggerpy/processors.html#FlatenningProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.FlatenningProcessor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#swaggerpy.processors.SwaggerProcessor" title="swaggerpy.processors.SwaggerProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">SwaggerProcessor</span></code></a></p>
+<p>Flattens model and property dictionaries into lists.</p>
+<p>Mustache requires a regular schema.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.FlatenningProcessor.process_api_declaration">
+<span class="sig-name descname"><span class="pre">process_api_declaration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#FlatenningProcessor.process_api_declaration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.FlatenningProcessor.process_api_declaration" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a resource object.</p>
+<p>This is parsed from a .json file reference by a resource listing’s
+‘api’ array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.FlatenningProcessor.process_model">
+<span class="sig-name descname"><span class="pre">process_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#FlatenningProcessor.process_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.FlatenningProcessor.process_model" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a model from a resources model dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>model</strong> – Model object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.processors.ParsingContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.processors.</span></span><span class="sig-name descname"><span class="pre">ParsingContext</span></span><a class="reference internal" href="../_modules/swaggerpy/processors.html#ParsingContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.ParsingContext" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Context information for parsing.</p>
+<p>This object is immutable. To change contexts (like adding an item to the
+stack), use the next() and next_stack() functions to build a new one.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.ParsingContext.is_empty">
+<span class="sig-name descname"><span class="pre">is_empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#ParsingContext.is_empty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.ParsingContext.is_empty" title="Permalink to this definition"></a></dt>
+<dd><p>Tests whether context is empty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if empty, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.ParsingContext.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#ParsingContext.pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.ParsingContext.pop" title="Permalink to this definition"></a></dt>
+<dd><p>Pops the most recent object out of the context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.ParsingContext.push">
+<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#ParsingContext.push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.ParsingContext.push" title="Permalink to this definition"></a></dt>
+<dd><p>Pushes a new self-identifying object into the context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Specifies type of object json represents</p></li>
+<li><p><strong>json</strong> – Current Jsonified object.</p></li>
+<li><p><strong>id_field</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Field name in json that identifies it.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.ParsingContext.push_str">
+<span class="sig-name descname"><span class="pre">push_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#ParsingContext.push_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.ParsingContext.push_str" title="Permalink to this definition"></a></dt>
+<dd><p>Pushes a new object into the context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Specifies type of object json represents</p></li>
+<li><p><strong>json</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Current Jsonified object.</p></li>
+<li><p><strong>id_string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Identifier of the given json.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.processors.</span></span><span class="sig-name descname"><span class="pre">SwaggerError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Raised when an error is encountered mapping the JSON objects into the
+model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.processors.</span></span><span class="sig-name descname"><span class="pre">SwaggerProcessor</span></span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Post processing interface for Swagger API’s.</p>
+<p>This processor can add fields to model objects for additional
+information to use in the templates.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.apply" title="Permalink to this definition"></a></dt>
+<dd><p>Apply this processor to a loaded Swagger definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>resources</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Top level Swagger definition.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_api_declaration">
+<span class="sig-name descname"><span class="pre">process_api_declaration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_api_declaration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_api_declaration" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a resource object.</p>
+<p>This is parsed from a .json file reference by a resource listing’s
+‘api’ array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_error_response">
+<span class="sig-name descname"><span class="pre">process_error_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_error_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_error_response" title="Permalink to this definition"></a></dt>
+<dd><p>Post process an errorResponse on an operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>api</strong> – API object</p></li>
+<li><p><strong>operation</strong> – Operation object.</p></li>
+<li><p><strong>error_response</strong> – Response object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_model">
+<span class="sig-name descname"><span class="pre">process_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_model" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a model from a resources model dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>model</strong> – Model object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_operation">
+<span class="sig-name descname"><span class="pre">process_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_operation" title="Permalink to this definition"></a></dt>
+<dd><p>Post process an operation on an api.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>api</strong> – API object</p></li>
+<li><p><strong>operation</strong> – Operation object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_parameter">
+<span class="sig-name descname"><span class="pre">process_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a parameter on an operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>api</strong> – API object</p></li>
+<li><p><strong>operation</strong> – Operation object.</p></li>
+<li><p><strong>parameter</strong> – Parameter object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_property">
+<span class="sig-name descname"><span class="pre">process_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_property" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a property from a model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>model</strong> – Model object.</p></li>
+<li><p><strong>prop</strong> – Property object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_resource_api">
+<span class="sig-name descname"><span class="pre">process_resource_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_resource_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_resource_api" title="Permalink to this definition"></a></dt>
+<dd><p>Post process entries in a resource’s api array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>api</strong> – API object</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_resource_listing">
+<span class="sig-name descname"><span class="pre">process_resource_listing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_resource_listing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_resource_listing" title="Permalink to this definition"></a></dt>
+<dd><p>Post process a resources.json object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – ResourceApi object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.SwaggerProcessor.process_resource_listing_api">
+<span class="sig-name descname"><span class="pre">process_resource_listing_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">listing_api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#SwaggerProcessor.process_resource_listing_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.SwaggerProcessor.process_resource_listing_api" title="Permalink to this definition"></a></dt>
+<dd><p>Post process entries in a resource.json’s api array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>listing_api</strong> – ResourceApi object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="swaggerpy.processors.WebsocketProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">swaggerpy.processors.</span></span><span class="sig-name descname"><span class="pre">WebsocketProcessor</span></span><a class="reference internal" href="../_modules/swaggerpy/processors.html#WebsocketProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.WebsocketProcessor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#swaggerpy.processors.SwaggerProcessor" title="swaggerpy.processors.SwaggerProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">SwaggerProcessor</span></code></a></p>
+<p>Process the WebSocket extension for Swagger</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.WebsocketProcessor.process_operation">
+<span class="sig-name descname"><span class="pre">process_operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#WebsocketProcessor.process_operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.WebsocketProcessor.process_operation" title="Permalink to this definition"></a></dt>
+<dd><p>Post process an operation on an api.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>api</strong> – API object</p></li>
+<li><p><strong>operation</strong> – Operation object.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="swaggerpy.processors.WebsocketProcessor.process_resource_api">
+<span class="sig-name descname"><span class="pre">process_resource_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/swaggerpy/processors.html#WebsocketProcessor.process_resource_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#swaggerpy.processors.WebsocketProcessor.process_resource_api" title="Permalink to this definition"></a></dt>
+<dd><p>Post process entries in a resource’s api array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resources</strong> – Resource listing object</p></li>
+<li><p><strong>resource</strong> – resource object.</p></li>
+<li><p><strong>api</strong> – API object</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#swaggerpy.processors.ParsingContext" title="swaggerpy.processors.ParsingContext"><em>ParsingContext</em></a>) – Current context in the API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="swaggerpy.http_client.html" class="btn btn-neutral float-left" title="swaggerpy.http_client module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="swaggerpy.swagger_model.html" class="btn btn-neutral float-right" title="swaggerpy.swagger_model module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+swaggerpy.processors module
+===========================
+
+.. automodule:: swaggerpy.processors
+   :members:
+   :undoc-members:
+   :show-inheritance:

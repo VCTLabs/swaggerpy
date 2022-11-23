@@ -1,0 +1,7 @@
+swaggerpy.http\_client module
+=============================
+
+.. automodule:: swaggerpy.http_client
+   :members:
+   :undoc-members:
+   :show-inheritance:

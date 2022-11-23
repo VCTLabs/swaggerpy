@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About &mdash; swagger-py 0.2.2.dev8 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="swaggerpy" href="api/modules.html" />
+    <link rel="prev" title="Welcome to the pyami_asterisk documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> swagger-py
+          </a>
+              <div class="version">
+                0.2.2.dev8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#swagger-codegen">swagger-codegen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-model">Data model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">swaggerpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">0.2.0 (2013-10-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#id2">0.1.0 (2013-10-24)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">swagger-py</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">About</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="about">
+<h1>About<a class="headerlink" href="#about" title="Permalink to this heading"></a></h1>
+<p>Swagger.py is a Python library for using
+<a class="reference external" href="https://developers.helloreverb.com/swagger/">Swagger</a> defined API’s.</p>
+<p>Swagger itself is best described on the Swagger home page:</p>
+<blockquote>
+<div><p>Swagger is a specification and complete framework implementation for
+describing, producing, consuming, and visualizing RESTful web
+services.</p>
+</div></blockquote>
+<p>The <a class="reference external" href="https://github.com/wordnik/swagger-core/wiki">Swagger
+specification</a> defines
+how API’s may be described using Swagger.</p>
+<p>Swagger.py also supports a WebSocket extension, allowing a WebSocket to
+be documented, and auto-generated WebSocket client code.</p>
+</section>
+<section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
+<p>Install the latest release from PyPI.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo pip install swaggerpy
+</pre></div>
+</div>
+<p>Or install from source using the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo ./setup.py install
+</pre></div>
+</div>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h2>
+<p>Swagger.py will dynamically build an object model from a Swagger-enabled
+RESTful API.</p>
+<p>Here is a simple example using the <a class="reference external" href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+12+ARI">Asterisk REST
+Interface</a></p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">swaggerpy.client</span> <span class="kn">import</span> <span class="n">SwaggerClient</span>
+<span class="kn">from</span> <span class="nn">swaggerpy.http_client</span> <span class="kn">import</span> <span class="n">SynchronousHttpClient</span>
+
+<span class="n">http_client</span> <span class="o">=</span> <span class="n">SynchronousHttpClient</span><span class="p">()</span>
+<span class="n">http_client</span><span class="o">.</span><span class="n">set_basic_auth</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;hey&#39;</span><span class="p">,</span> <span class="s1">&#39;peekaboo&#39;</span><span class="p">)</span>
+
+<span class="n">ari</span> <span class="o">=</span> <span class="n">SwaggerClient</span><span class="p">(</span>
+    <span class="s2">&quot;http://localhost:8088/ari/api-docs/resources.json&quot;</span><span class="p">,</span>
+    <span class="n">http_client</span><span class="o">=</span><span class="n">http_client</span><span class="p">)</span>
+
+<span class="n">ws</span> <span class="o">=</span> <span class="n">ari</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">eventWebsocket</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">msg_str</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ws</span><span class="o">.</span><span class="n">recv</span><span class="p">(),</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">msg_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">msg_str</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;StasisStart&#39;</span><span class="p">:</span>
+        <span class="n">channelId</span> <span class="o">=</span> <span class="n">msg_json</span><span class="p">[</span><span class="s1">&#39;channel&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">ari</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="n">channelId</span><span class="o">=</span><span class="n">channelId</span><span class="p">)</span>
+        <span class="n">ari</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">channelId</span><span class="o">=</span><span class="n">channelId</span><span class="p">,</span>
+                          <span class="n">media</span><span class="o">=</span><span class="s1">&#39;sound:hello-world&#39;</span><span class="p">)</span>
+        <span class="n">ari</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">continueInDialplan</span><span class="p">(</span><span class="n">channelId</span><span class="o">=</span><span class="n">channelId</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="swagger-codegen">
+<h2>swagger-codegen<a class="headerlink" href="#swagger-codegen" title="Permalink to this heading"></a></h2>
+<p>There are the beginnings of a Mustache-based code generator, but it’s
+not functional… yet.</p>
+</section>
+<section id="data-model">
+<h2>Data model<a class="headerlink" href="#data-model" title="Permalink to this heading"></a></h2>
+<p>The data model presented by the <code class="docutils literal notranslate"><span class="pre">swagger_model</span></code> module is nearly
+identical to the original Swagger API resource listing and API
+declaration. This means that if you add extra custom metadata to your
+docs (such as a <code class="docutils literal notranslate"><span class="pre">_author</span></code> or <code class="docutils literal notranslate"><span class="pre">_copyright</span></code> field), they will carry
+forward into the object model. I recommend prefixing custom fields with
+an underscore, to avoid collisions with future versions of Swagger.</p>
+<p>There are a few meaningful differences.</p>
+<ul class="simple">
+<li><p>Resource listing</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">file</span></code> and <code class="docutils literal notranslate"><span class="pre">base_dir</span></code> fields have been added, referencing the
+original <code class="docutils literal notranslate"><span class="pre">.json</span></code> file.</p></li>
+<li><p>The objects in a <code class="docutils literal notranslate"><span class="pre">resource_listing</span></code>’s <code class="docutils literal notranslate"><span class="pre">api</span></code> array contains a
+field <code class="docutils literal notranslate"><span class="pre">api_declaration</span></code>, which is the processed result from the
+referenced API doc.</p></li>
+<li><p>API declaration</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">file</span></code> field has been added, referencing the original <code class="docutils literal notranslate"><span class="pre">.json</span></code>
+file.</p></li>
+</ul>
+</section>
+</section>
+<section id="development">
+<h1>Development<a class="headerlink" href="#development" title="Permalink to this heading"></a></h1>
+<p>The code is documented using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>, which
+allows <a class="reference external" href="http://confluence.jetbrains.net/display/PYH/">IntelliJ IDEA</a>
+to do a better job at inferring types for autocompletion.</p>
+<p>To keep things isolated, I also recommend installing (and using)
+<a class="reference external" href="http://www.virtualenv.org/">virtualenv</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo pip install virtualenv
+$ mkdir -p ~/virtualenv
+$ virtualenv ~/virtualenv/swagger
+$ . ~/virtualenv/swagger/bin/activate
+</pre></div>
+</div>
+<p><a class="reference external" href="http://pypi.python.org/pypi/setuptools">Setuptools</a> is used for
+building. <a class="reference external" href="http://nose.readthedocs.org/en/latest/">Nose</a> is used
+for unit testing, with the <a class="reference external" href="http://nedbatchelder.com/code/coverage/">coverage</a> plugin installed to
+generated code coverage reports. Pass <code class="docutils literal notranslate"><span class="pre">--with-coverage</span></code> to generate
+the code coverage report. HTML versions of the reports are put in
+<code class="docutils literal notranslate"><span class="pre">cover/index.html</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./setup.py develop   # prep for development (install deps, launchers, etc.)
+$ ./setup.py nosetests # run unit tests
+$ ./setup.py bdist_egg # build distributable
+</pre></div>
+</div>
+</section>
+<section id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h1>
+<p>Copyright (c) 2013, Digium, Inc. All rights reserved.</p>
+<p>Swagger.py is licensed with a <a class="reference external" href="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause
+License</a>.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to the pyami_asterisk documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/modules.html" class="btn btn-neutral float-right" title="swaggerpy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
