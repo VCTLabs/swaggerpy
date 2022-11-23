@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 import base64
-
 import unittest
+
 import httpretty
 
 from swaggerpy.http_client import SynchronousHttpClient
@@ -36,7 +35,7 @@ class SynchronousClientTestCase(unittest.TestCase):
         self.assertEqual('expected', resp.text)
         self.assertEqual('application/x-www-form-urlencoded',
                          httpretty.last_request().headers['content-type'])
-        self.assertEqual("foo=bar",
+        self.assertEqual(b"foo=bar",
                          httpretty.last_request().body)
 
     @httpretty.activate
@@ -53,7 +52,8 @@ class SynchronousClientTestCase(unittest.TestCase):
         self.assertEqual('expected', resp.text)
         self.assertEqual({'foo': ['bar']},
                          httpretty.last_request().querystring)
-        self.assertEqual('Basic %s' % base64.b64encode("unit:peekaboo"),
+        self.assertEqual('Basic %s' %
+                         base64.b64encode(b"unit:peekaboo").decode(),
                          httpretty.last_request().headers.get('Authorization'))
 
     @httpretty.activate

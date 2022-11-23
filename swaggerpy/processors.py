@@ -63,8 +63,7 @@ class ParsingContext(object):
         self.args[obj_type] = json
 
     def pop(self):
-        """Pops the most recent object out of the context
-        """
+        """Pops the most recent object out of the context"""
         del self.args[self.type_stack.pop()]
         self.id_stack.pop()
 
@@ -107,8 +106,7 @@ class SwaggerProcessor(object):
             context.pop()
 
             api_url = listing_api.get('url') or 'json:api_declaration'
-            context.push_str('resource', listing_api['api_declaration'],
-                             api_url)
+            context.push_str('resource', listing_api['api_declaration'], api_url)
             self.process_api_declaration(**context.args)
             for api in listing_api['api_declaration']['apis']:
                 context.push('api', api, 'path')
@@ -127,17 +125,18 @@ class SwaggerProcessor(object):
                     context.pop()
                 context.pop()
             models = listing_api['api_declaration'].get('models', {})
-            for (name, model) in models.items():
+            for _name, model in models.items():
                 context.push('model', model, 'id')
                 self.process_model(**context.args)
-                for (name, prop) in model['properties'].items():
+                for _name, prop in model['properties'].items():
                     context.push('prop', prop, 'name')
                     self.process_property(**context.args)
                     context.pop()
                 context.pop()
             context.pop()
         context.pop()
-        assert context.is_empty(), "Expected %r to be empty" % context
+        if not context.is_empty():
+            raise AssertionError("Expected %r to be empty" % (context,))
 
     def process_resource_listing(self, resources, context):
         """Post process a resources.json object.
@@ -146,7 +145,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_resource_listing_api(self, resources, listing_api, context):
         """Post process entries in a resource.json's api array.
@@ -156,7 +154,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_api_declaration(self, resources, resource, context):
         """Post process a resource object.
@@ -169,7 +166,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_resource_api(self, resources, resource, api, context):
         """Post process entries in a resource's api array
@@ -180,7 +176,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_operation(self, resources, resource, api, operation, context):
         """Post process an operation on an api.
@@ -192,10 +187,8 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
-    def process_parameter(self, resources, resource, api, operation, parameter,
-                          context):
+    def process_parameter(self, resources, resource, api, operation, parameter, context):
         """Post process a parameter on an operation.
 
         :param resources: Resource listing object
@@ -206,10 +199,10 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
-    def process_error_response(self, resources, resource, api, operation,
-                               error_response, context):
+    def process_error_response(
+        self, resources, resource, api, operation, error_response, context
+    ):
         """Post process an errorResponse on an operation.
 
         :param resources: Resource listing object
@@ -220,7 +213,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_model(self, resources, resource, model, context):
         """Post process a model from a resources model dictionary.
@@ -231,7 +223,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_property(self, resources, resource, model, prop, context):
         """Post process a property from a model.
@@ -243,13 +234,11 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
 
 # noinspection PyDocstring
 class WebsocketProcessor(SwaggerProcessor):
-    """Process the WebSocket extension for Swagger
-    """
+    """Process the WebSocket extension for Swagger"""
 
     def process_resource_api(self, resources, resource, api, context):
         api.setdefault('has_websocket', False)
@@ -261,8 +250,8 @@ class WebsocketProcessor(SwaggerProcessor):
             api['has_websocket'] = True
             if operation['httpMethod'] != 'GET':
                 raise SwaggerError(
-                    "upgrade: websocket is only valid on GET operations",
-                    context)
+                    "upgrade: websocket is only valid on GET operations", context
+                )
 
 
 # noinspection PyDocstring

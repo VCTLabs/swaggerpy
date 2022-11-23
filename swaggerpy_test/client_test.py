@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #
 # Copyright (c) 2013, Digium, Inc.
 #
@@ -11,7 +9,7 @@ import httpretty
 import requests
 import unittest
 
-from swaggerpy.client import SwaggerClient
+from swaggerpy import SwaggerClient
 
 
 # noinspection PyDocstring
@@ -84,7 +82,7 @@ class ClientTest(unittest.TestCase):
 
         resp = self.uut.pet.deletePet(petId=1234)
         self.assertEqual(requests.codes.no_content, resp.status_code)
-        self.assertEqual('', resp.content)
+        self.assertEqual(b'', resp.content)
 
     def setUp(self):
         # Default handlers for all swagger.py access
