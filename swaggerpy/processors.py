@@ -144,7 +144,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_resource_listing_api(self, resources, listing_api, context):
         """Post process entries in a resource.json's api array.
@@ -154,7 +153,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_api_declaration(self, resources, resource, context):
         """Post process a resource object.
@@ -167,7 +165,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_resource_api(self, resources, resource, api, context):
         """Post process entries in a resource's api array
@@ -178,7 +175,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_operation(self, resources, resource, api, operation, context):
         """Post process an operation on an api.
@@ -190,7 +186,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_parameter(self, resources, resource, api, operation, parameter, context):
         """Post process a parameter on an operation.
@@ -203,7 +198,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_error_response(
         self, resources, resource, api, operation, error_response, context
@@ -218,7 +212,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_model(self, resources, resource, model, context):
         """Post process a model from a resources model dictionary.
@@ -229,7 +222,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
     def process_property(self, resources, resource, model, prop, context):
         """Post process a property from a model.
@@ -241,7 +233,6 @@ class SwaggerProcessor(object):
         :type context: ParsingContext
         :param context: Current context in the API.
         """
-        pass
 
 
 # noinspection PyDocstring

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # swagger-py documentation build configuration file, created by
 # sphinx-quickstart on Wed Oct 16 09:33:48 2013.

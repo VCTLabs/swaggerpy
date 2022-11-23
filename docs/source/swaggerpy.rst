@@ -39,4 +39,3 @@ Subpackages
 .. toctree::
 
     swaggerpy.client
-

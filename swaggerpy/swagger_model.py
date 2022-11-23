@@ -108,8 +108,8 @@ def json_load_url(http_client, url):
     """
     scheme = urllib.parse.urlparse(url).scheme
     if scheme == 'file':
-        # requests can't handle file: URLs
-        fp = urllib.request.urlopen(url)
+        # requests can't handle file: URLs so the following is required
+        fp = urllib.request.urlopen(url)  # nosec
         if six.PY3:
             import codecs
 
