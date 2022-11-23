@@ -129,9 +129,9 @@ class Loader(object):
     """Abstraction for loading Swagger API's.
 
     :param http_client: HTTP client interface.
-    :type  http_client: http_client.HttpClient
+    :type  http_client: swaggerpy.http_client.HttpClient
     :param processors: List of processors to apply to the API.
-    :type  processors: list of SwaggerProcessor
+    :type  processors: list of swaggerpy.processors.SwaggerProcessor
     """
 
     def __init__(self, http_client, processors=None):

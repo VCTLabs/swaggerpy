@@ -1,10 +1,10 @@
-Welcome to swaggerpy's documentation!
-=====================================
+Welcome to the pyami_asterisk documentation!
+============================================
 
 .. git_commit_detail::
     :branch:
     :commit:
-    :sha_length: 5
+    :sha_length: 10
     :uncommitted:
     :untracked:
 
@@ -12,9 +12,9 @@ Welcome to swaggerpy's documentation!
     :maxdepth: 4
     :caption: Contents:
 
-    modules
-    swaggerpy
-    swaggerpy.client
+    README.md
+    api/modules
+    changes
 
 Indices and tables
 ==================
