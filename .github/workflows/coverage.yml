@@ -13,8 +13,7 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - main
+    branches: [ master, develop ]
 
 jobs:
   pre_ci:

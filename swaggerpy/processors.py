@@ -135,7 +135,8 @@ class SwaggerProcessor(object):
                 context.pop()
             context.pop()
         context.pop()
-        assert context.is_empty(), "Expected %r to be empty" % context
+        if not context.is_empty():
+            raise AssertionError("Expected %r to be empty" % (context,))
 
     def process_resource_listing(self, resources, context):
         """Post process a resources.json object.

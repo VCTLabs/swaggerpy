@@ -10,7 +10,7 @@ import logging
 import os.path
 import re
 
-import six.moves.urllib as urllib
+from six.moves import urllib
 
 from .http_client import SynchronousHttpClient
 from .processors import SwaggerProcessor, WebsocketProcessor

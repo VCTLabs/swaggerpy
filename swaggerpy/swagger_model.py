@@ -9,7 +9,7 @@ import json
 import os
 
 import six
-import six.moves.urllib as urllib
+from six.moves import urllib
 
 from .http_client import SynchronousHttpClient
 from .processors import SwaggerError, SwaggerProcessor

@@ -8,9 +8,8 @@
 import logging
 
 import requests
-import requests.auth
-import six.moves.urllib as urllib
 import websocket
+from six.moves import urllib
 
 log = logging.getLogger(__name__)
 

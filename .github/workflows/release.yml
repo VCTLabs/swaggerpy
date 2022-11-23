@@ -117,18 +117,18 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: ApiDocsHTML
-        path: "docs/_build/html/"
+        path: "docs/build/html/"
 
     - name: set nojekyll for github
       run: |
-        sudo touch docs/_build/html/.nojekyll
+        sudo touch docs/build/html/.nojekyll
 
     - name: Deploy docs to gh-pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: docs/_build/html/
+        FOLDER: docs/build/html/
         SINGLE_COMMIT: true
 
   # When a GitHub release is made, upload the artifacts to PyPI
