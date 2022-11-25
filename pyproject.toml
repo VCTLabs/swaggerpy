@@ -16,30 +16,12 @@ addopts = "--strict-markers"
 markers = "subscript"
 
 [tool.coverage.run]
-branch = true
-source = [
-    "swaggerpy",
-    ".tox/py*/lib/python*/site-packages/swaggerpy",
-]
-omit = [
-    "swaggerpy_test",
-    ".tox",
-]
-
-[tool.coverage.paths]
-source = ["swaggerpy"]
+plugins = ["covdefaults"]
 
 [tool.coverage.report]
 fail_under = 70
-show_missing = true
 exclude_lines = [
     "def __repr__",
-    "pragma: no cover",
-    "raise NotImplementedError",
-    "raise AssertionError",
-    "if __name__ == .__main__.:",
-    "if typing.TYPE_CHECKING:",
-    "if TYPE_CHECKING:",
 ]
 
 [tool.black]

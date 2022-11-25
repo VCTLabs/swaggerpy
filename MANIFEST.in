@@ -1,3 +1,7 @@
-include README.rst
-include LICENSE.txt
-include CHANGELOG.rst
+graft docs
+graft swaggerpy_test
+graft test-data
+
+include README.rst LICENSE.txt CHANGELOG.rst tox.ini
+
+global-exclude *~ *.py[cod]
