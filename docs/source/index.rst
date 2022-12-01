@@ -1,5 +1,5 @@
-Welcome to the pyami_asterisk documentation!
-============================================
+Welcome to the swaggerpy documentation!
+=======================================
 
 .. git_commit_detail::
     :branch:
